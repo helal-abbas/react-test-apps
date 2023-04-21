@@ -42,3 +42,17 @@ export const readRequest = async () => {
     
     return response.data
 }
+
+export const deleteRequest = async (id: number | string) => {
+    const response: any = await axios.delete(`http://127.0.0.1:8000/delete-data/${id}`, {
+        headers: {
+            "Content-Type": "application/json"
+        }
+    }).then((res) => {
+        return res
+    }).catch((error) => {
+        console.error(error);
+    })
+    
+    return response.data
+}

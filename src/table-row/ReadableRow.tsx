@@ -1,6 +1,7 @@
 export interface ValuesProps{
     contact: any;
-    editableHandler: (id: any) => void
+    editableHandler: (id: any) => void;
+    deleteHandler:(id: number | string) => void;
 }
 
 function ReadRow(props: ValuesProps) {
@@ -13,7 +14,7 @@ function ReadRow(props: ValuesProps) {
             <td>{props.contact.body}</td>
             <td>
                 <button onClick={() => props.editableHandler(props.contact)}>Edit</button>
-                <button>Delete</button>
+                <button onClick={() => props.deleteHandler(props.contact.id)}>Delete</button>
             </td>
         </tr>
     )

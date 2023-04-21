@@ -19,7 +19,7 @@ function EditRow(props: value) {
             </td>
             <td>
                 <input
-                type="number"
+                type="text"
                 name="userId"
                 required
                 placeholder="Enter UserId"

@@ -4,7 +4,7 @@ import './App.css';
 import ReadRow from './table-row/ReadableRow';
 import EditRow from './table-row/EditableRow';
 import data from "./mock-data.json";
-import { createRequest, editRequest, readRequest } from './request.service';
+import { createRequest, deleteRequest, editRequest, readRequest } from './request.service';
 function App() {
   const [tableData, setTableData] = useState([]);
 
@@ -42,7 +42,7 @@ function App() {
     setTableData(response);
     }
     setEditById(0)
-    console.log("Value of click", value)
+   
     
   }
 
@@ -56,18 +56,23 @@ function App() {
   const addSubmitHandler = async()=> {
     const response = await createRequest(addForm);
     setTableData(response);
-   
+    setEditById(0)
+    
     if(response) setAddForm({ userId: "", title: "", body: "" })
   } 
 
   const readData = async () => {
    const response =  await readRequest()
-   console.log('form data',response)
+   
    setTableData(response);
   }
   useEffect(() => {
     readData()
   },[])
+  const deleteHandler = async (id: string | number) => {
+    const response = await deleteRequest(id);
+    setTableData(response);
+  }
   return (
     <div className="App">
       <h2>Add a Details</h2>
@@ -94,7 +99,7 @@ function App() {
           placeholder="Enter a Body"
           onChange={handleAddFormChange}
         />
-        <button type="submit" onClick={() => addSubmitHandler()}>Add</button>
+        <button onClick={() => addSubmitHandler()}>Add</button>
       </div>
       <header className="App-header">
       <table>
@@ -109,7 +114,7 @@ function App() {
       </thead>
 
       <tbody>
-      {tableData.length && tableData.map((contact: any,index) => (
+      {tableData?.length> 0 ? tableData?.length && tableData.map((contact: any,index) => (
           <Fragment key={index}>
             {
               editById === contact.id ?
@@ -122,10 +127,11 @@ function App() {
             <ReadRow
               contact={contact}
               editableHandler = {editableHandler}
+              deleteHandler = {deleteHandler}
             />
           }
           </Fragment>
-        ))}
+        )): ''}
       </tbody>
     </table>
       </header>
